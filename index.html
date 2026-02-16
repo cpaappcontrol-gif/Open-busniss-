@@ -520,9 +520,7 @@ body::after{
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-  emailjs.init({
-    publicKey: "S8Vf78IZbumBAh5Kx",
-  });
+emailjs.init("S8Vf78IZbumBAh5Kx");
 </script>
 </head>
 
@@ -612,7 +610,7 @@ body::after{
 
 <div class="terms">
   <label>
-<input type="checkbox" id="termsCheck" name="terms" required>
+<input type="checkbox" id="termsCheck" name="terms" value="מאושר" required>
     אני מאשר/ת את <a href="Policy_and_Privacy.html" target="_blank">תנאי השימוש</a> ומדיניות הפרטיות
   </label>
 </div>
@@ -739,8 +737,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch(function(error){
         console.error("FAILED...", error);
-        alert("אירעה שגיאה בשליחה. בדוק קונסול (F12).");
-    });
+		alert("אירעה שגיאה בשליחה. בדוק קונסול (F12).\n" + JSON.stringify(error));    });
 
   });
 
