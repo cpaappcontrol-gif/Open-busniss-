@@ -504,7 +504,7 @@ body::after{
    .section .features .box h3 {
     font-size: 2rem !important;      /* גודל גדול יותר */
     font-weight: 900 !important;     /* מודגש מאוד */
-    color: #c9a24d;  !important;       /* צבע זהב */
+    color: #c9a24d; !important;       /* צבע זהב */
     text-align: center !important;   /* ממרכז את המספר */
     margin-bottom: 5px !important;   /* רווח מתחת למספר */
   }
@@ -518,11 +518,11 @@ body::after{
 }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/emailjs@3/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-(function(){
-emailjs.init("S8Vf78IZbumBAh5Kx");
-})();
+  emailjs.init({
+    publicKey: "S8Vf78IZbumBAh5Kx",
+  });
 </script>
 </head>
 
@@ -575,7 +575,7 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
 <!-- Hero Section -->
 <div class="hero">
 <h1>חסוך זמן וכסף – פתיחת עוסק פטור במהירות!</h1>
-<p class="subtitle">דיווחים, מיסים ובירוקרטיה – הכל מנוהל בשבילך בפשטות דיגיטלית, יחס אנושי ובלי כאב ראש</p>
+<p class="subtitle">הכל מנוהל בשבילך בפשטות דיגיטלית, יחס אנושי ובלי כאב ראש</p>
 <a class="cta" href="https://wa.me/972505331700?text=היי%20אביה%20👋%0Aאני%20רוצה%20לפתוח%20עוסק%20פטור" target="_blank">
 💬 דברו איתנו ב-WhatsApp
 </a>
@@ -588,10 +588,6 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
 
 <form id="leadForm">
 
-<div class="form-row">
-  <label for="name">טלפון * : </label>
-  <input type="tel" id="phone" name="phone" required>
-</div>
 
 <div class="form-row">
   <label for="name"> שם מלא :  </label>
@@ -599,8 +595,8 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
 </div>
 
 <div class="form-row">
-  <label for="email">כתובת מייל:</label>
-  <input type="email" id="email" name="email">
+  <label for="name">טלפון * : </label>
+  <input type="tel" id="phone" name="phone" required>
 </div>
 
 <div class="form-row">
@@ -608,9 +604,15 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
   <input type="text" id="business" name="business">
 </div>
 
+<div class="form-row">
+  <label for="email">כתובת מייל:</label>
+  <input type="email" id="email" name="email">
+</div>
+
+
 <div class="terms">
   <label>
-    <input type="checkbox" id="termsCheck" required>
+<input type="checkbox" id="termsCheck" name="terms" required>
     אני מאשר/ת את <a href="Policy_and_Privacy.html" target="_blank">תנאי השימוש</a> ומדיניות הפרטיות
   </label>
 </div>
@@ -718,30 +720,44 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
 </div>
 
 <script>
-document.getElementById("leadForm").addEventListener("submit", function(e){
-e.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
 
-emailjs.sendForm(
-"7imp2hc",
-"template_3u0hhxm",
-this
-).then(function(){
-document.getElementById("formMessage").style.display="block";
-document.getElementById("leadForm").reset();
-}, function(error){
-alert("אירעה שגיאה, נסה שוב");
-console.log(error);
-});
-});
+  const form = document.getElementById("leadForm");
 
-/* אנימציות */
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')});
-},{threshold:.2});
-document
-  .querySelectorAll('.hero, .section, .footer-cta, .box')
-  .forEach(el => observer.observe(el));
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    emailjs.sendForm(
+      "7imp2hc",
+      "template_3u0hhxm",
+      form
+    )
+    .then(function(response){
+        console.log("SUCCESS!", response);
+        document.getElementById("formMessage").style.display = "block";
+        form.reset();
+    })
+    .catch(function(error){
+        console.error("FAILED...", error);
+        alert("אירעה שגיאה בשליחה. בדוק קונסול (F12).");
+    });
+
+  });
+
+  /* אנימציות */
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add('show')
+    });
+  },{threshold:.2});
+
+  document
+    .querySelectorAll('.hero, .section, .footer-cta, .box')
+    .forEach(el => observer.observe(el));
+
+});
 </script>
+
 </main>
 
 
