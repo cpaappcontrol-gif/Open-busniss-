@@ -595,8 +595,9 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
 
 <div class="form-row">
   <label for="name">טלפון * : </label>
-  <input type="tel" id="phone" name="phone" autocomplete="tel">
-</div>
+<input type="tel" id="phone" name="phone" autocomplete="tel" required
+       pattern="(\+972|0)[0-9]{8,9}" 
+       title="הכנס מספר טלפון תקני עם או בלי קידומת +972"></div>
 
 <div class="form-row">
   <label for="business">סוג העסק :</label>
