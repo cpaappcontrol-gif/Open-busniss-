@@ -521,6 +521,18 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DF7WM87DE8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DF7WM87DE8');
+</script>
+
+
 </head>
 
 <body>
@@ -750,6 +762,13 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("SUCCESS!", response);
         document.getElementById("formMessage").style.display = "block";
         form.reset();
+		
+		// Google Ads conversion event
+		gtag('event', 'conversion', {
+        'send_to': 'AW-11246950943/n1nBCO-XoLMaEJ-0-_Ip',
+        'value': 1.0,
+        'currency': 'ILS'
+    });
     })
     .catch(function(error){
         console.error("FAILED...", error);
