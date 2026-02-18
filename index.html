@@ -770,9 +770,7 @@ let formLoadedTime = Date.now();
       alert("נא להמתין 5 שניות לפני שליחה נוספת");
       return;
     }
-	  // סימון מיידי שהטופס נשלח (ל alert הבא)
-  localStorage.setItem("formSubmitted","true");
-	  
+
 	// Honeypot check (bot protection)
 if (document.getElementById("website").value !== "") {
   console.log("Bot blocked (honeypot)");
@@ -834,6 +832,7 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 
 </body>
 </html>
+
 
 
 
