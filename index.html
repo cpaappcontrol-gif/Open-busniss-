@@ -641,6 +641,9 @@ function gtag_report_conversion(url) {
 
 <!-- <div class="g-recaptcha" data-sitekey="6LfbG28sAAAAAKxxtY-DGfWtbXCnxdnPXF34g7zS"></div> -->
 
+<!-- Honeypot anti-spam field -->
+<input type="text" id="website" name="website" style="display:none">
+	
 <button type="submit" id="submitBtn">שלח פרטים</button>
 </form>
 
@@ -747,15 +750,15 @@ function gtag_report_conversion(url) {
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+let formLoadedTime = Date.now();
+	
   const form = document.getElementById("leadForm");
   let lastSubmitTime = 0;
 
   form.addEventListener("submit", function(e){
     e.preventDefault();
-	
-	const now = Date.now();
-	
-	 // בדיקה אם המשתמש כבר שלח
+
+	  	 // בדיקה אם המשתמש כבר שלח
     if(localStorage.getItem("formSubmitted") === "true"){
       alert("כבר שלחת את הטופס, תודה!");
       return;
@@ -766,7 +769,24 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("נא להמתין 5 שניות לפני שליחה נוספת");
       return;
     }
+	  // סימון מיידי שהטופס נשלח (ל alert הבא)
+  localStorage.setItem("formSubmitted","true");
+	  
+	// Honeypot check (bot protection)
+if (document.getElementById("website").value !== "") {
+  console.log("Bot blocked (honeypot)");
+  return;
+}
+
+	  // Time check (block bots that submit too fast)
+const timeDiff = Date.now() - formLoadedTime;
+if (timeDiff < 3000) { // פחות מ-3 שניות
+  console.log("Bot blocked (too fast)");
+  return;
+}
 	
+	const now = Date.now();
+
 		lastSubmitTime = now;
 
 	
@@ -781,11 +801,16 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("formSubmitted","true");
 
 		 // Google Ads conversion
-		gtag_report_conversion(); // <-- כאן
+		try {
+      gtag_report_conversion(); // <-- כאן
+    } catch(e) {
+      console.warn("Google conversion error:", e);
+    }
+
 		})
     .catch(function(error){
         console.error("FAILED...", error);
-		alert("אירעה שגיאה בשליחה. בדוק קונסול (F12).\n" + JSON.stringify(error));    });
+		/* alert("אירעה שגיאה בשליחה. בדוק קונסול (F12).\n" + JSON.stringify(error));    }); */
 
   });
 
@@ -808,8 +833,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
-
-
-
-
-
