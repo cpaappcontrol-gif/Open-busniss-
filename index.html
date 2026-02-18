@@ -641,6 +641,9 @@ function gtag_report_conversion(url) {
 
 <!-- <div class="g-recaptcha" data-sitekey="6LfbG28sAAAAAKxxtY-DGfWtbXCnxdnPXF34g7zS"></div> -->
 
+<!-- Honeypot anti-spam field -->
+<input type="text" id="website" name="website" style="display:none">
+	
 <button type="submit" id="submitBtn">שלח פרטים</button>
 </form>
 
@@ -747,11 +750,26 @@ function gtag_report_conversion(url) {
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+let formLoadedTime = Date.now();
+	
   const form = document.getElementById("leadForm");
   let lastSubmitTime = 0;
 
   form.addEventListener("submit", function(e){
     e.preventDefault();
+
+	// Honeypot check (bot protection)
+if (document.getElementById("website").value !== "") {
+  console.log("Bot blocked (honeypot)");
+  return;
+}
+
+	  // Time check (block bots that submit too fast)
+const timeDiff = Date.now() - formLoadedTime;
+if (timeDiff < 3000) { // פחות מ-3 שניות
+  console.log("Bot blocked (too fast)");
+  return;
+}
 	
 	const now = Date.now();
 	
@@ -808,6 +826,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
