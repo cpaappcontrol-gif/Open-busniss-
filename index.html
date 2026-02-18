@@ -568,7 +568,6 @@ function gtag_report_conversion(url) {
 </a>
 
 
-</a>
 
 
 <main id="main-content">
@@ -814,9 +813,9 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
         console.error("FAILED...", error);
 		localStorage.removeItem("formSubmitted"); // משחרר חסימה
 
-		/* alert("אירעה שגיאה בשליחה. בדוק קונסול (F12).\n" + JSON.stringify(error));    }); */
-
-  });
+    submitBtn.disabled = false;
+    submitBtn.innerText = "שלח פרטים";
+});
 
   /* אנימציות */
   const observer = new IntersectionObserver(entries=>{
@@ -837,6 +836,7 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 
 </body>
 </html>
+
 
 
 
