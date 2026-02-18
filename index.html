@@ -517,9 +517,6 @@ body::after{
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-emailjs.init("S8Vf78IZbumBAh5Kx");
-</script>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
@@ -748,7 +745,10 @@ function gtag_report_conversion(url) {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-
+if (typeof emailjs !== "undefined") {
+  emailjs.init("S8Vf78IZbumBAh5Kx");
+}
+	
 	window.addEventListener("error", function(){
   document
     .querySelectorAll('.hero, .section, .footer-cta, .box')
@@ -842,6 +842,7 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 
 </body>
 </html>
+
 
 
 
