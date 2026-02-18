@@ -517,9 +517,6 @@ body::after{
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-emailjs.init("S8Vf78IZbumBAh5Kx");
-</script>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
@@ -568,7 +565,6 @@ function gtag_report_conversion(url) {
 </a>
 
 
-</a>
 
 
 <main id="main-content">
@@ -749,6 +745,15 @@ function gtag_report_conversion(url) {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+if (typeof emailjs !== "undefined") {
+  emailjs.init("S8Vf78IZbumBAh5Kx");
+}
+	
+	window.addEventListener("error", function(){
+  document
+    .querySelectorAll('.hero, .section, .footer-cta, .box')
+    .forEach(el => el.classList.add('show'));
+});
 
 let formLoadedTime = Date.now();
 	
@@ -757,21 +762,23 @@ let formLoadedTime = Date.now();
 
   form.addEventListener("submit", function(e){
     e.preventDefault();
-
+const submitBtn = document.getElementById("submitBtn");
+submitBtn.disabled = true;
+submitBtn.innerText = "שולח...";
+	  
 	  	 // בדיקה אם המשתמש כבר שלח
     if(localStorage.getItem("formSubmitted") === "true"){
       alert("כבר שלחת את הטופס, תודה!");
       return;
     }
-	
+
+	  const now = Date.now();
 	// בדיקה אם עברו 5 שניות מאז שליחה אחרונה
     if (now - lastSubmitTime < 5000) {
       alert("נא להמתין 5 שניות לפני שליחה נוספת");
       return;
     }
-	  // סימון מיידי שהטופס נשלח (ל alert הבא)
-  localStorage.setItem("formSubmitted","true");
-	  
+
 	// Honeypot check (bot protection)
 if (document.getElementById("website").value !== "") {
   console.log("Bot blocked (honeypot)");
@@ -785,7 +792,7 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
   return;
 }
 	
-	const now = Date.now();
+	
 
 		lastSubmitTime = now;
 
@@ -810,9 +817,11 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 		})
     .catch(function(error){
         console.error("FAILED...", error);
-		/* alert("אירעה שגיאה בשליחה. בדוק קונסול (F12).\n" + JSON.stringify(error));    }); */
+		localStorage.removeItem("formSubmitted"); // משחרר חסימה
 
-  });
+    submitBtn.disabled = false;
+    submitBtn.innerText = "שלח פרטים";
+});
 
   /* אנימציות */
   const observer = new IntersectionObserver(entries=>{
@@ -833,6 +842,17 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
