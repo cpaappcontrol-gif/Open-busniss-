@@ -799,7 +799,12 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
         localStorage.setItem("formSubmitted","true");
 
 		 // Google Ads conversion
-		gtag_report_conversion(); // <-- כאן
+		try {
+      gtag_report_conversion(); // <-- כאן
+    } catch(e) {
+      console.warn("Google conversion error:", e);
+    }
+
 		})
     .catch(function(error){
         console.error("FAILED...", error);
@@ -826,6 +831,7 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 
 </body>
 </html>
+
 
 
 
