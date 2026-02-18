@@ -54,7 +54,17 @@ body::after {
 }
 .container{max-width:960px;margin:auto;padding:30px 20px;}
 
+.hero, .section, .footer-cta, .box {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
 
+.show {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+	
 /* לוגו */
 .header-logo {
   display: flex;
@@ -820,16 +830,8 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
     submitBtn.innerText = "שלח פרטים";
 });
 
-  /* אנימציות */
-  const observer = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting) e.target.classList.add('show')
-    });
-  },{threshold:.2});
-
-  document
-    .querySelectorAll('.hero, .section, .footer-cta, .box')
-    .forEach(el => observer.observe(el));
+document.querySelectorAll('.hero, .section, .footer-cta, .box')
+        .forEach(el => el.classList.add('show'));
 
 });
 </script>
@@ -839,6 +841,7 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 
 </body>
 </html>
+
 
 
 
