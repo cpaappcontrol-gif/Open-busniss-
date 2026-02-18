@@ -749,6 +749,12 @@ function gtag_report_conversion(url) {
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+	window.addEventListener("error", function(){
+  document
+    .querySelectorAll('.hero, .section, .footer-cta, .box')
+    .forEach(el => el.classList.add('show'));
+});
+
 let formLoadedTime = Date.now();
 	
   const form = document.getElementById("leadForm");
@@ -836,6 +842,7 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 
 </body>
 </html>
+
 
 
 
