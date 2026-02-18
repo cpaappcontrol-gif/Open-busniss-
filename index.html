@@ -757,7 +757,10 @@ let formLoadedTime = Date.now();
 
   form.addEventListener("submit", function(e){
     e.preventDefault();
-
+const submitBtn = document.getElementById("submitBtn");
+submitBtn.disabled = true;
+submitBtn.innerText = "שולח...";
+	  
 	  	 // בדיקה אם המשתמש כבר שלח
     if(localStorage.getItem("formSubmitted") === "true"){
       alert("כבר שלחת את הטופס, תודה!");
@@ -809,6 +812,8 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 		})
     .catch(function(error){
         console.error("FAILED...", error);
+		localStorage.removeItem("formSubmitted"); // משחרר חסימה
+
 		/* alert("אירעה שגיאה בשליחה. בדוק קונסול (F12).\n" + JSON.stringify(error));    }); */
 
   });
@@ -832,6 +837,7 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 
 </body>
 </html>
+
 
 
 
