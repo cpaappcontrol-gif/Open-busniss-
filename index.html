@@ -54,17 +54,7 @@ body::after {
 }
 .container{max-width:960px;margin:auto;padding:30px 20px;}
 
-.hero, .section, .footer-cta, .box {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: transform 0.6s ease, opacity 0.6s ease;
-}
 
-.show {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
-	
 /* לוגו */
 .header-logo {
   display: flex;
@@ -527,6 +517,9 @@ body::after{
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+emailjs.init("S8Vf78IZbumBAh5Kx");
+</script>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
@@ -575,6 +568,7 @@ function gtag_report_conversion(url) {
 </a>
 
 
+</a>
 
 
 <main id="main-content">
@@ -647,9 +641,6 @@ function gtag_report_conversion(url) {
 
 <!-- <div class="g-recaptcha" data-sitekey="6LfbG28sAAAAAKxxtY-DGfWtbXCnxdnPXF34g7zS"></div> -->
 
-<!-- Honeypot anti-spam field -->
-<input type="text" id="website" name="website" style="display:none">
-	
 <button type="submit" id="submitBtn">שלח פרטים</button>
 </form>
 
@@ -755,52 +746,27 @@ function gtag_report_conversion(url) {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-if (typeof emailjs !== "undefined") {
-  emailjs.init("S8Vf78IZbumBAh5Kx");
-}
-	
- document.querySelectorAll('.hero, .section, .footer-cta, .box')
-          .forEach(el => el.classList.add('show'));
-	
-let formLoadedTime = Date.now();
-	
+
   const form = document.getElementById("leadForm");
   let lastSubmitTime = 0;
 
   form.addEventListener("submit", function(e){
     e.preventDefault();
-const submitBtn = document.getElementById("submitBtn");
-submitBtn.disabled = true;
-submitBtn.innerText = "שולח...";
-	  
-	  	 // בדיקה אם המשתמש כבר שלח
+	
+	const now = Date.now();
+	
+	 // בדיקה אם המשתמש כבר שלח
     if(localStorage.getItem("formSubmitted") === "true"){
       alert("כבר שלחת את הטופס, תודה!");
       return;
     }
-
-	  const now = Date.now();
+	
 	// בדיקה אם עברו 5 שניות מאז שליחה אחרונה
     if (now - lastSubmitTime < 5000) {
       alert("נא להמתין 5 שניות לפני שליחה נוספת");
       return;
     }
-
-	// Honeypot check (bot protection)
-if (document.getElementById("website").value !== "") {
-  console.log("Bot blocked (honeypot)");
-  return;
-}
-
-	  // Time check (block bots that submit too fast)
-const timeDiff = Date.now() - formLoadedTime;
-if (timeDiff < 3000) { // פחות מ-3 שניות
-  console.log("Bot blocked (too fast)");
-  return;
-}
 	
-	
-
 		lastSubmitTime = now;
 
 	
@@ -815,23 +781,24 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
         localStorage.setItem("formSubmitted","true");
 
 		 // Google Ads conversion
-		try {
-      gtag_report_conversion(); // <-- כאן
-    } catch(e) {
-      console.warn("Google conversion error:", e);
-    }
-
+		gtag_report_conversion(); // <-- כאן
 		})
     .catch(function(error){
         console.error("FAILED...", error);
-		localStorage.removeItem("formSubmitted"); // משחרר חסימה
+		alert("אירעה שגיאה בשליחה. בדוק קונסול (F12).\n" + JSON.stringify(error));    });
 
-    submitBtn.disabled = false;
-    submitBtn.innerText = "שלח פרטים";
-});
+  });
 
-document.querySelectorAll('.hero, .section, .footer-cta, .box')
-        .forEach(el => el.classList.add('show'));
+  /* אנימציות */
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add('show')
+    });
+  },{threshold:.2});
+
+  document
+    .querySelectorAll('.hero, .section, .footer-cta, .box')
+    .forEach(el => observer.observe(el));
 
 });
 </script>
@@ -841,18 +808,6 @@ document.querySelectorAll('.hero, .section, .footer-cta, .box')
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
