@@ -748,57 +748,62 @@ function gtag_report_conversion(url) {
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
 
-	form.addEventListener("submit", function(e){
-  e.preventDefault();
+  const form = document.getElementById("leadForm");
+  let lastSubmitTime = 0;
+  let formLoadedTime = Date.now();
 
-  const now = Date.now();
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
 
-  // חסימה אם כבר נשלח
-  if(localStorage.getItem("formSubmitted") === "true"){
-    alert("כבר שלחת את הטופס, תודה!");
-    return;
-  }
+    const now = Date.now();
 
-  // חסימה אם מנסים לשלוח מהר מדי
-  if (now - lastSubmitTime < 5000) {
-    alert("נא להמתין 5 שניות לפני שליחה נוספת");
-    return;
-  }
+    // חסימה אם כבר נשלח
+    if(localStorage.getItem("formSubmitted") === "true"){
+      alert("כבר שלחת את הטופס, תודה!");
+      return;
+    }
 
-  lastSubmitTime = now;
+    // חסימה אם מנסים לשלוח מהר מדי
+    if (now - lastSubmitTime < 5000) {
+      alert("נא להמתין 5 שניות לפני שליחה נוספת");
+      return;
+    }
 
-  // Honeypot
-  if (document.getElementById("website").value !== "") {
-    console.log("Bot blocked (honeypot)");
-    return;
-  }
+    lastSubmitTime = now;
 
-  // חסימת בוטים מהירים
-  const timeDiff = Date.now() - formLoadedTime;
-  if (timeDiff < 3000) {
-    console.log("Bot blocked (too fast)");
-    return;
-  }
+    // Honeypot
+    if (document.getElementById("website").value !== "") {
+      console.log("Bot blocked (honeypot)");
+      return;
+    }
 
-  emailjs.sendForm("service_7imp2hc","template_3u0hhxm",form)
-    .then(function(response){
-        console.log("SUCCESS!", response);
-        document.getElementById("formMessage").style.display = "block";
-        form.reset();
-        localStorage.setItem("formSubmitted","true");
+    // חסימת בוטים מהירים
+    const timeDiff = Date.now() - formLoadedTime;
+    if (timeDiff < 3000) {
+      console.log("Bot blocked (too fast)");
+      return;
+    }
 
-        try {
-          gtag_report_conversion();
-        } catch(e) {
-          console.warn("Google conversion error:", e);
-        }
-    })
-    .catch(function(error){
-        console.error("FAILED...", error);
-        alert("אירעה שגיאה בשליחה. נסה שוב.");
-    });
-});
+    emailjs.sendForm("service_7imp2hc","template_3u0hhxm",form)
+      .then(function(response){
+          console.log("SUCCESS!", response);
+          document.getElementById("formMessage").style.display = "block";
+          form.reset();
+          localStorage.setItem("formSubmitted","true");
+
+          try {
+            gtag_report_conversion();
+          } catch(e) {
+            console.warn("Google conversion error:", e);
+          }
+      })
+      .catch(function(error){
+          console.error("FAILED...", error);
+          alert("אירעה שגיאה בשליחה. נסה שוב.");
+      });
+  });
 
   /* אנימציות */
   const observer = new IntersectionObserver(entries=>{
@@ -819,4 +824,5 @@ function gtag_report_conversion(url) {
 
 </body>
 </html>
+
 
