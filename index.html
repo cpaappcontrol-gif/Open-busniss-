@@ -607,7 +607,7 @@ function gtag_report_conversion(url) {
 <div class="form-box">
 <h3>לפתיחה מהירה של עוסק פטור/זעיר</h3>
 
-<form id="leadForm">
+<form id="leadForm" autocomplete="on">
 
 
 <div class="form-row">
@@ -617,7 +617,7 @@ function gtag_report_conversion(url) {
 
 <div class="form-row">
   <label for="name">טלפון * : </label>
-<input type="tel" id="phone" name="phone" autocomplete="phone" required
+<input type="tel" id="phone" name="phone" autocomplete="tel" required
        pattern="(\+972|0)[0-9]{7,9}" 
        title="הכנס מספר טלפון תקני עם או עם קידומת +972"></div>
 
@@ -824,6 +824,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
