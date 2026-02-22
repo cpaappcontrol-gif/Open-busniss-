@@ -748,71 +748,57 @@ function gtag_report_conversion(url) {
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
 
-let formLoadedTime = Date.now();
-	
-  const form = document.getElementById("leadForm");
-  let lastSubmitTime = 0;
+	form.addEventListener("submit", function(e){
+  e.preventDefault();
 
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
+  const now = Date.now();
 
-	  	 // בדיקה אם המשתמש כבר שלח
-    if(localStorage.getItem("formSubmitted") === "true"){
-      alert("כבר שלחת את הטופס, תודה!");
-      return;
-    }
-	
-	// בדיקה אם עברו 5 שניות מאז שליחה אחרונה
-    if (now - lastSubmitTime < 5000) {
-      alert("נא להמתין 5 שניות לפני שליחה נוספת");
-      return;
-    }
-	  // סימון מיידי שהטופס נשלח (ל alert הבא)
-  localStorage.setItem("formSubmitted","true");
-	  
-	// Honeypot check (bot protection)
-if (document.getElementById("website").value !== "") {
-  console.log("Bot blocked (honeypot)");
-  return;
-}
+  // חסימה אם כבר נשלח
+  if(localStorage.getItem("formSubmitted") === "true"){
+    alert("כבר שלחת את הטופס, תודה!");
+    return;
+  }
 
-	  // Time check (block bots that submit too fast)
-const timeDiff = Date.now() - formLoadedTime;
-if (timeDiff < 3000) { // פחות מ-3 שניות
-  console.log("Bot blocked (too fast)");
-  return;
-}
-	
-	const now = Date.now();
+  // חסימה אם מנסים לשלוח מהר מדי
+  if (now - lastSubmitTime < 5000) {
+    alert("נא להמתין 5 שניות לפני שליחה נוספת");
+    return;
+  }
 
-		lastSubmitTime = now;
+  lastSubmitTime = now;
 
-	
-	 // שליחת הטופס באמצעות EmailJS
-    emailjs.sendForm("service_7imp2hc","template_3u0hhxm",form)
-      .then(function(response){
+  // Honeypot
+  if (document.getElementById("website").value !== "") {
+    console.log("Bot blocked (honeypot)");
+    return;
+  }
+
+  // חסימת בוטים מהירים
+  const timeDiff = Date.now() - formLoadedTime;
+  if (timeDiff < 3000) {
+    console.log("Bot blocked (too fast)");
+    return;
+  }
+
+  emailjs.sendForm("service_7imp2hc","template_3u0hhxm",form)
+    .then(function(response){
         console.log("SUCCESS!", response);
         document.getElementById("formMessage").style.display = "block";
         form.reset();
-
-        // סימון במחשב שהטופס נשלח
         localStorage.setItem("formSubmitted","true");
 
-		 // Google Ads conversion
-		try {
-      gtag_report_conversion(); // <-- כאן
-    } catch(e) {
-      console.warn("Google conversion error:", e);
-    }
-
-		})
+        try {
+          gtag_report_conversion();
+        } catch(e) {
+          console.warn("Google conversion error:", e);
+        }
+    })
     .catch(function(error){
         console.error("FAILED...", error);
-		/* alert("אירעה שגיאה בשליחה. בדוק קונסול (F12).\n" + JSON.stringify(error));    }); */
-
-  });
+        alert("אירעה שגיאה בשליחה. נסה שוב.");
+    });
+});
 
   /* אנימציות */
   const observer = new IntersectionObserver(entries=>{
@@ -833,3 +819,4 @@ if (timeDiff < 3000) { // פחות מ-3 שניות
 
 </body>
 </html>
+
