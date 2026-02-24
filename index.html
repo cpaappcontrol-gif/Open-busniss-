@@ -556,13 +556,20 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
 
   gtag('config', 'AW-11246950943');
 
-  function gtag_report_conversion() {
-    gtag('event', 'conversion', {
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url; // מעביר לדף רק אחרי שההמרה נשלחה
+    }
+  };
+  gtag('event', 'conversion', {
       'send_to': 'AW-11246950943/jezHCImluv4bEJ-0-_Ip',
       'value': 1.0,
-      'currency': 'ILS'
-    });
-  }
+      'currency': 'ILS',
+      'event_callback': callback
+  });
+  return false;
+}
 </script>
 	
 
@@ -573,7 +580,7 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
 <body>
 
 <a class="whatsapp-float"
-	href="https://wa.me/972505331700?text=היי%20אביה%20👋%0Aאני%20רוצה%20לפתוח%20עוסק%20פטור" target="_blank" onclick="gtag_report_conversion()"
+	href="https://wa.me/972505331700?text=היי%20אביה%20👋%0Aאני%20רוצה%20לפתוח%20עוסק%20פטור" target="_blank" onclick="return gtag_report_conversion(this.href)"
 
    aria-label="שלח הודעה ב-WhatsApp"
    title="WhatsApp"
@@ -620,7 +627,7 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
 <div class="hero">
 <h1>חסוך זמן וכסף – פתיחת עוסק פטור במהירות!</h1>
 <p class="subtitle">הכל מנוהל בשבילך בפשטות דיגיטלית, יחס אנושי ובלי כאב ראש</p>
-<a class="cta" href="https://wa.me/972505331700?text=היי%20אביה%20👋%0Aאני%20רוצה%20לפתוח%20עוסק%20פטור" target="_blank" onclick="gtag_report_conversion()">
+<a class="cta" href="https://wa.me/972505331700?text=היי%20אביה%20👋%0Aאני%20רוצה%20לפתוח%20עוסק%20פטור" target="_blank" onclick="return gtag_report_conversion(this.href)">
 💬 דברו איתנו ב-WhatsApp
 </a>
 </div>
@@ -769,7 +776,7 @@ emailjs.init("S8Vf78IZbumBAh5Kx");
 
 <div class="footer-cta section">
 <h2>רוצה להתחיל עוד היום?</h2>
-<a class="cta" href="https://wa.me/972505331700?text=היי%20אביה%20👋%0Aאני%20רוצה%20לפתוח%20עוסק%20פטור" target="_blank" onclick="gtag_report_conversion()">
+<a class="cta" href="https://wa.me/972505331700?text=היי%20אביה%20👋%0Aאני%20רוצה%20לפתוח%20עוסק%20פטור" target="_blank" onclick="return gtag_report_conversion(this.href)">
 🚀 שלח הודעה עכשיו
 </a>
 </div>
@@ -877,6 +884,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
