@@ -385,6 +385,22 @@ input:focus {
     padding: 10px 15px;
   }
 
+	  .social-stats {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .social-stats .box {
+    flex: 1;
+    padding: 15px 10px;
+  }
+
+  .social-stats .box h3 {
+    font-size: 1.4rem;
+  }
+	
   /* ביטול אנימציות כדי שכל הסקשנים יראו */
   .hero, .section, .footer-cta, .box {
     opacity: 1 !important;
@@ -730,7 +746,7 @@ function gtag_report_conversion(url) {
 
 <div class="section">
 <h2>לקוחות מרוצים שלנו</h2>
-<div class="features">
+<div class="features social-stats">
 <div class="box">
 <h3>400+</h3>
 <p>עסקים שנפתחו</p>
@@ -857,6 +873,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
