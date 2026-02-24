@@ -20,6 +20,14 @@ overflow-x:hidden;
 
 }
 
+.captcha-scale {
+  transform: scale(0.85);   /* תשנה ל-0.8 אם אתה רוצה יותר קטן */
+  transform-origin: right;  /* כי האתר RTL */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+	
 /* צורות בולטות אך שקופות */
 body::before {
   content: '';
@@ -822,6 +830,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
