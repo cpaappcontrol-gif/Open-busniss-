@@ -926,6 +926,57 @@ document.addEventListener("DOMContentLoaded", function () {
     .querySelectorAll('.hero, .section, .footer-cta, .box')
     .forEach(el => observer.observe(el));
 
+	/* ===== אנימציית מספרים ===== */
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function animateCount(el, target, suffix = "") {
+  const duration = 1800;
+  const startTime = performance.now();
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easedProgress = easeOutCubic(progress);
+    const value = Math.floor(target * easedProgress);
+
+    el.textContent = value + suffix;
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      el.textContent = target + suffix;
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+const statsSection = document.querySelector(".trust-stats");
+const stats = document.querySelectorAll(".trust-number");
+let triggered = false;
+
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !triggered) {
+      triggered = true;
+
+      stats.forEach(stat => {
+        const text = stat.textContent;
+        const number = parseInt(text.replace(/\D/g, ""));
+        const suffix = text.replace(/[0-9]/g, "");
+        animateCount(stat, number, suffix);
+      });
+    }
+  });
+}, { threshold: 0.4 });
+
+if (statsSection) {
+  statsObserver.observe(statsSection);
+}
+
 });
 </script>
 
@@ -934,6 +985,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
