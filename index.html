@@ -117,30 +117,41 @@ transition:.3s;
 .cta:hover{background:#16a34a;transform:scale(1.06);}
 
 .trust-stats{
-  margin-top:25px;
+  margin:40px 0;
   display:flex;
   justify-content:space-between;
   text-align:center;
-  gap:10px;
+  background:white;
+  border-radius:18px;
+  padding:25px 10px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.06);
 }
 
 .trust-item{
   flex:1;
-  background:#f8fafc;
-  padding:15px 10px;
-  border-radius:14px;
+  position:relative;
+}
+
+.trust-item:not(:last-child)::after{
+  content:"";
+  position:absolute;
+  top:20%;
+  left:0;
+  width:1px;
+  height:60%;
+  background:#e2e8f0;
 }
 
 .trust-number{
-  font-size:1.4rem;
+  font-size:1.8rem;
   font-weight:900;
   color:#c9a24d;
 }
 
 .trust-label{
-  font-size:0.85rem;
+  font-size:0.9rem;
   color:#475569;
-  margin-top:5px;
+  margin-top:6px;
 }
 	
 /* Sections */
@@ -552,7 +563,7 @@ body::after{
    .section .features .box h3 {
     font-size: 2rem !important;      /* גודל גדול יותר */
     font-weight: 900 !important;     /* מודגש מאוד */
-    color: #c9a24d; !important;       /* צבע זהב */
+    color: #c9a24d;!important;       /* צבע זהב */
     text-align: center !important;   /* ממרכז את המספר */
     margin-bottom: 5px !important;   /* רווח מתחת למספר */
   }
@@ -923,6 +934,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
