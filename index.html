@@ -116,19 +116,33 @@ transition:.3s;
 }
 .cta:hover{background:#16a34a;transform:scale(1.06);}
 
-.trust-box{
-  margin-top:20px;
-  padding:15px;
-  background:#f8fafc;
-  border-radius:12px;
-  font-size:0.9rem;
-  font-weight:600;
-  color:#0f172a;
+.trust-stats{
+  margin-top:25px;
   display:flex;
-  flex-direction:column;
-  gap:6px;
-  text-align:right;
+  justify-content:space-between;
+  text-align:center;
+  gap:10px;
 }
+
+.trust-item{
+  flex:1;
+  background:#f8fafc;
+  padding:15px 10px;
+  border-radius:14px;
+}
+
+.trust-number{
+  font-size:1.4rem;
+  font-weight:900;
+  color:#c9a24d;
+}
+
+.trust-label{
+  font-size:0.85rem;
+  color:#475569;
+  margin-top:5px;
+}
+	
 /* Sections */
 .section { margin-top:30px; text-align:center; opacity:0; transform:translateY(20px); transition:all 0.8s ease; }
 .features {
@@ -694,10 +708,19 @@ function gtag_report_conversion(url) {
 </div>
 </div>
 
-<div class="trust-box">
-  <div>✔️ מעל 400 פתיחות תיקים</div>
-  <div>✔️ ניסיון של 8+ שנים</div>
-  <div>✔️ ליווי אישי מלא</div>
+<div class="trust-stats">
+  <div class="trust-item">
+    <div class="trust-number">400+</div>
+    <div class="trust-label">פתיחות תיקים</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-number">8+</div>
+    <div class="trust-label">שנות ניסיון</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-number">100%</div>
+    <div class="trust-label">ליווי אישי</div>
+  </div>
 </div>
 	
 <!-- Target Audience -->
@@ -900,6 +923,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
